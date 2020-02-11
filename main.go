@@ -66,6 +66,20 @@ func main() {
 
 	keyByte := (*key)[0]
 
+	if *output != "" {
+		f, err := os.Create(*output)
+		checkError(err)
+		o = f
+		defer f.Close()
+	}
+
+	if *input != "" {
+		f, err := os.Open(*input)
+		checkError(err)
+		i = f
+		defer f.Close()
+	}
+
 	if *encrypt {
 		w := xorWriter{keyByte, o}
 		b, err := ioutil.ReadAll(i)
